@@ -1,0 +1,51 @@
+{
+  "name": "react-remarkify",
+  "version": "0.1.0",
+  "description": "A simple React.js utility to convert Markdown into React components.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "pnpm i && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SahilAggarwal2004/react-remarkify.git"
+  },
+  "keywords": [
+    "react-remarkify",
+    "react",
+    "markdown",
+    "markdown-to-react",
+    "react-markdown",
+    "react-components",
+    "remark",
+    "react-markdown-renderer",
+    "markdown-renderer",
+    "typescript",
+    "jsx",
+    "markdown-parser",
+    "react-utility",
+    "markdown-to-jsx"
+  ],
+  "author": "Sahil Aggarwal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SahilAggarwal2004/react-remarkify/issues"
+  },
+  "homepage": "https://github.com/SahilAggarwal2004/react-remarkify#readme",
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.2",
+    "hast-util-to-jsx-runtime": "^2.3.2",
+    "mdast-util-to-hast": "^13.2.0"
+  },
+  "dependencies": {
+    "rehype-react": "^8.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.1",
+    "unified": "^11.0.5"
+  }
+}
