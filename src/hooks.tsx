@@ -6,7 +6,7 @@ import remarkToRehype from "remark-rehype";
 import { unified } from "unified";
 import { UseRemarkOptions } from "./types.js";
 
-export function useRemark({ markdown, rehypePlugins = [], rehypeReactOptions, remarkParseOptions, remarkPlugins = [], remarkToRehypeOptions, onError = () => {} }: UseRemarkOptions): ReactElement | null {
+export function useRemark({ markdown, rehypePlugins = [], rehypeReactOptions, remarkParseOptions, remarkPlugins = [], remarkToRehypeOptions, onError = console.error }: UseRemarkOptions): ReactElement | null {
   const [reactContent, setReactContent] = useState<ReactElement | null>(null);
 
   useEffect(() => {
