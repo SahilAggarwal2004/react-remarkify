@@ -16,7 +16,7 @@ export function useRemark({ markdown, rehypePlugins = [], rehypeReactOptions, re
         .use(remarkToRehype, remarkToRehypeOptions)
         .use(rehypePlugins)
         .use(rehypeReact, { ...rehypeReactOptions, Fragment, jsx, jsxs }),
-    [rehypePlugins, rehypeReactOptions, remarkPlugins, remarkParseOptions, remarkToRehypeOptions]
+    []
   );
   const reactContent = useMemo(() => {
     try {
@@ -27,7 +27,7 @@ export function useRemark({ markdown, rehypePlugins = [], rehypeReactOptions, re
       onError(error);
       return null;
     }
-  }, [markdown, processor, onError]);
+  }, [markdown]);
 
   return reactContent;
 }

@@ -77,6 +77,8 @@ The `useRemark` hook accepts the following parameters:
 | `remarkToRehypeOptions` | [`RemarkRehypeOptions`](#remarkrehypeoptions) | No       | -               | Options for the `remark` to `rehype` transformation.                       |
 | `onError`               | `Function`                                    | No       | `console.error` | Callback to handle errors during the Markdown-to-React conversion process. |
 
+**Note:** All options except `markdown` are now immutable once set. This decision was made for performance optimization.
+
 ### `<Remark>` Component
 
 The `<Remark>` component accepts the same options as `useRemark`, but you pass the `markdown` content as its children:
