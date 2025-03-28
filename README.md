@@ -67,15 +67,16 @@ export default function App() {
 
 The `useRemark` hook accepts the following parameters:
 
-| Parameter               | Type                                          | Required | Default         | Description                                                                |
-| ----------------------- | --------------------------------------------- | -------- | --------------- | -------------------------------------------------------------------------- |
-| `markdown`              | `string`                                      | Yes      | -               | The Markdown content to be converted into React.js components.             |
-| `rehypePlugins`         | [`PluggableList`](#pluggablelist)             | No       | -               | Plugins for `rehype` to extend functionality.                              |
-| `rehypeReactOptions`    | [`RehypeReactOptions`](#rehypereactoptions)   | No       | -               | Options for customizing the generated React.js components.                 |
-| `remarkParseOptions`    | [`RemarkParseOptions`](#remarkparseoptions)   | No       | -               | Parsing options for `remark`.                                              |
-| `remarkPlugins`         | [`PluggableList`](#pluggablelist)             | No       | -               | Plugins for `remark` to enhance Markdown processing.                       |
-| `remarkToRehypeOptions` | [`RemarkRehypeOptions`](#remarkrehypeoptions) | No       | -               | Options for the `remark` to `rehype` transformation.                       |
-| `onError`               | `Function`                                    | No       | `console.error` | Callback to handle errors during the Markdown-to-React conversion process. |
+| Parameter               | Type                                          | Required | Default         | Description                                                                                                  |
+| ----------------------- | --------------------------------------------- | -------- | --------------- | ------------------------------------------------------------------------------------------------------------ |
+| `markdown`              | `string`                                      | Yes      | -               | The Markdown content to be converted into React.js components.                                               |
+| `rehypePlugins`         | [`PluggableList`](#pluggablelist)             | No       | -               | Plugins for `rehype` to extend functionality.                                                                |
+| `rehypeReactOptions`    | [`RehypeReactOptions`](#rehypereactoptions)   | No       | -               | Options for customizing the generated React.js components.                                                   |
+| `remarkParseOptions`    | [`RemarkParseOptions`](#remarkparseoptions)   | No       | -               | Parsing options for `remark`.                                                                                |
+| `remarkPlugins`         | [`PluggableList`](#pluggablelist)             | No       | -               | Plugins for `remark` to enhance Markdown processing.                                                         |
+| `remarkToRehypeOptions` | [`RemarkRehypeOptions`](#remarkrehypeoptions) | No       | -               | Options for the `remark` to `rehype` transformation.                                                         |
+| `components`            | [`Components`](#components)                   | No       | -               | A mapping of HTML elements to custom React components, allowing customization of rendered Markdown elements. |
+| `onError`               | `Function`                                    | No       | `console.error` | Callback to handle errors during the Markdown-to-React conversion process.                                   |
 
 **Note:** All options except `markdown` are now immutable once set. This decision was made for performance optimization.
 
@@ -114,6 +115,13 @@ type RemarkParseOptions = Options;
 ```typescript
 import { Options } from "remark-rehype";
 type RemarkRehypeOptions = Options;
+```
+
+### `Components`
+
+```typescript
+import { ComponentType, JSX } from "react";
+type Components = { [Key in keyof JSX.IntrinsicElements]?: ComponentType<JSX.IntrinsicElements[Key] & { node?: Element }> | keyof JSX.IntrinsicElements };
 ```
 
 ## License

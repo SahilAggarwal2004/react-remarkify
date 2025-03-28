@@ -1,5 +1,5 @@
-import { Components } from "hast-util-to-jsx-runtime";
 import { Options as RemarkRehypeOptions } from "mdast-util-to-hast";
+import { ComponentType, JSX } from "react";
 import { Options as RemarkParseOptions } from "remark-parse";
 import { PluggableList } from "unified";
 
@@ -10,8 +10,11 @@ export type CommonProps = {
   remarkParseOptions?: RemarkParseOptions;
   remarkPlugins?: PluggableList;
   remarkToRehypeOptions?: RemarkRehypeOptions;
+  components?: Components;
   onError?: (err: Error) => void;
 };
+
+export type Components = { [Key in keyof JSX.IntrinsicElements]?: ComponentType<JSX.IntrinsicElements[Key] & { node?: Element }> | keyof JSX.IntrinsicElements };
 
 export type UseRemarkOptions = CommonProps & {
   markdown: string;
@@ -23,3 +26,10 @@ export type RehypeReactOptions = { components?: Partial<Components> };
 export type RemarkProps = CommonProps & {
   children: string;
 };
+
+// utils.ts
+type Success<T> = { success: true; data: T; error: null };
+
+type Failure<E> = { success: false; data: null; error: E };
+
+export type Result<T, E = Error> = Success<T> | Failure<E>;
