@@ -1,6 +1,6 @@
 {
   "name": "react-remarkify",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A simple React.js utility to convert Markdown into React components.",
   "type": "module",
   "main": "dist/index.js",
@@ -38,14 +38,15 @@
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@types/react": "^19.0.7",
-    "hast-util-to-jsx-runtime": "^2.3.2",
-    "mdast-util-to-hast": "^13.2.0"
+    "@types/react": "^19.1.8",
+    "hast-util-to-jsx-runtime": "^2.3.6",
+    "mdast-util-to-hast": "^13.2.0",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "rehype-react": "^8.0.0",
     "remark-parse": "^11.0.0",
-    "remark-rehype": "^11.1.1",
+    "remark-rehype": "^11.1.2",
     "unified": "^11.0.5"
   }
 }

@@ -8,6 +8,7 @@ A lightweight React.js utility to transform Markdown into React.js components se
 - Simple and user-friendly API.
 - Fully customizable.
 - Supports plugins for enhanced functionality.
+- Accepts flexible content via `ReactNode`, including Markdown strings or JSX.
 
 ## Installation
 
@@ -40,7 +41,23 @@ import React from "react";
 import { useRemark } from "react-remarkify";
 
 export default function App() {
-  const reactContent = useRemark({ markdown: "# Hello World\nThis is **useRemark** hook" });
+  const heading = "# Welcome to the App";
+  const description = "This is a **React-powered** Markdown block.";
+
+  const reactContent = useRemark({
+    markdown: (
+      <section>
+        <div>{heading}</div>
+        <div>{description}</div>
+        <div>_This content is rendered from JSX and Markdown combined._</div>
+      </section>
+    ),
+    components: {
+      h1: "h2",
+      strong: (props) => <strong style={{ color: "#e67e22" }} {...props} />,
+      em: (props) => <em style={{ fontStyle: "italic", opacity: 0.8 }} {...props} />,
+    },
+  });
 
   return reactContent;
 }
@@ -55,9 +72,24 @@ import React from "react";
 import Remark from "react-remarkify";
 
 export default function App() {
-  const markdown = `# Hello World\nThis is a **Remark** component`;
+  const heading = "# Welcome to the App";
+  const description = "This is a **React-powered** Markdown block.";
 
-  return <Remark>{markdown}</Remark>;
+  return (
+    <Remark
+      components={{
+        h1: "h2",
+        strong: (props) => <strong style={{ color: "#e67e22" }} {...props} />,
+        em: (props) => <em style={{ fontStyle: "italic", opacity: 0.8 }} {...props} />,
+      }}
+    >
+      <section>
+        <div>{heading}</div>
+        <div>{description}</div>
+        <div>_This content is rendered from JSX and Markdown combined._</div>
+      </section>
+    </Remark>
+  );
 }
 ```
 
@@ -69,7 +101,7 @@ The `useRemark` hook accepts the following parameters:
 
 | Parameter               | Type                                          | Required | Default         | Description                                                                                                  |
 | ----------------------- | --------------------------------------------- | -------- | --------------- | ------------------------------------------------------------------------------------------------------------ |
-| `markdown`              | `string`                                      | Yes      | -               | The Markdown content to be converted into React.js components.                                               |
+| `markdown`              | `React.ReactNode`                             | Yes      | -               | The markdown content to be converted into React.js components.               |
 | `rehypePlugins`         | [`PluggableList`](#pluggablelist)             | No       | -               | Plugins for `rehype` to extend functionality.                                                                |
 | `rehypeReactOptions`    | [`RehypeReactOptions`](#rehypereactoptions)   | No       | -               | Options for customizing the generated React.js components.                                                   |
 | `remarkParseOptions`    | [`RemarkParseOptions`](#remarkparseoptions)   | No       | -               | Parsing options for `remark`.                                                                                |

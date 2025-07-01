@@ -1,5 +1,5 @@
 import { Options as RemarkRehypeOptions } from "mdast-util-to-hast";
-import { ComponentType, JSX } from "react";
+import { ComponentType, JSX, ReactNode } from "react";
 import { Options as RemarkParseOptions } from "remark-parse";
 import { PluggableList } from "unified";
 
@@ -17,14 +17,14 @@ export type CommonProps = {
 export type Components = { [Key in keyof JSX.IntrinsicElements]?: ComponentType<JSX.IntrinsicElements[Key] & { node?: Element }> | keyof JSX.IntrinsicElements };
 
 export type UseRemarkOptions = CommonProps & {
-  markdown: string;
+  markdown: ReactNode;
 };
 
 export type RehypeReactOptions = { components?: Partial<Components> };
 
 // index.tsx
 export type RemarkProps = CommonProps & {
-  children: string;
+  children: ReactNode;
 };
 
 // utils.ts

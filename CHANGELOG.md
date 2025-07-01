@@ -1,4 +1,9 @@
-# 0.3.0 (28-03-2025)
+# 0.4.0 (01-07-2025)
+
+- **feat:** Support `ReactNode` as input for `markdown` prop (accepts strings, JSX, fragments, etc.).
+- **perf:** Prevent unnecessary reprocessing.
+
+## 0.3.0 (28-03-2025)
 
 - **feat:** Added `components` prop to customize Markdown-rendered elements.
 - **refactor:** Replaced `ReactElement` with `JSX.Element` for better type consistency.
