@@ -1,4 +1,8 @@
-# 0.4.0 (01-07-2025)
+# 0.5.0 (11-10-2025)
+
+- **feat:** Add `debounceDelay` option to `useRemark` hook to debounce changes to the `markdown` input, reducing redundant processing during rapid updates.
+
+## 0.4.0 (01-07-2025)
 
 - **feat:** Support `ReactNode` as input for `markdown` prop (accepts strings, JSX, fragments, etc.).
 - **perf:** Prevent unnecessary reprocessing.

@@ -1,5 +1,5 @@
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
-import { ReactNode, useMemo, isValidElement, cloneElement, PropsWithChildren, useCallback } from "react";
+import { ReactNode, useMemo, isValidElement, cloneElement, PropsWithChildren, useCallback, useState, useEffect } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import rehypeReact from "rehype-react";
 import remarkParse from "remark-parse";
@@ -9,6 +9,17 @@ import { Processor, unified } from "unified";
 import { UseRemarkOptions } from "./types.js";
 import { NodeToKey, tryCatch } from "./utils.js";
 
+function useDebounce<T>(value: T, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
 export function useRemark({
   markdown,
   rehypePlugins = [],
@@ -17,6 +28,7 @@ export function useRemark({
   remarkPlugins = [],
   remarkToRehypeOptions,
   components,
+  debounceDelay = 0,
   onError = console.error,
 }: UseRemarkOptions): ReactNode {
   const processor = useMemo<Processor>(
@@ -46,7 +58,9 @@ export function useRemark({
     },
     [processor, JSON.stringify(components)]
   );
-  const reactContent = useMemo(() => processReactNode(markdown), [NodeToKey(markdown), processReactNode]);
+  const debouncedMarkdown = debounceDelay ? useDebounce(markdown, debounceDelay) : markdown;
+  const key = useMemo(() => NodeToKey(debouncedMarkdown), [debouncedMarkdown]);
+  const reactContent = useMemo(() => processReactNode(debouncedMarkdown), [key, processReactNode]);
 
   return reactContent;
 }

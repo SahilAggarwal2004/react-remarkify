@@ -11,6 +11,7 @@ export type CommonProps = {
   remarkPlugins?: PluggableList;
   remarkToRehypeOptions?: RemarkRehypeOptions;
   components?: Components;
+  debounceDelay?: number;
   onError?: (err: Error) => void;
 };
 
