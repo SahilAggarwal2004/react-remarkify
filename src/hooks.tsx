@@ -12,9 +12,10 @@ import { NodeToKey, tryCatch } from "./utils.js";
 function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
   const [stableValue, setStableValue] = useState(value);
   const lastUpdated = useRef(0);
+  const isImmediate = mode === "immediate" || delay <= 0;
 
   useEffect(() => {
-    if (mode === "immediate" || delay <= 0) return;
+    if (isImmediate) return;
 
     if (mode === "throttle") {
       const now = Date.now();
@@ -28,7 +29,7 @@ function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
     }
   }, [value, mode, delay]);
 
-  return mode === "immediate" || delay <= 0 ? value : stableValue;
+  return isImmediate ? value : stableValue;
 }
 
 export function useRemark({
