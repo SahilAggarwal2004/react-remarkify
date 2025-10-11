@@ -9,7 +9,7 @@ import { Processor, unified } from "unified";
 import { UpdateMode, UseRemarkOptions } from "./types.js";
 import { NodeToKey, tryCatch } from "./utils.js";
 
-function useStableValue<T>(value: T, mode: UpdateMode = "immediate", delay: number = 0) {
+function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
   const [stableValue, setStableValue] = useState(value);
   const lastUpdated = useRef(0);
 
