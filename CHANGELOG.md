@@ -1,4 +1,10 @@
-# 0.5.0 (11-10-2025)
+# 0.5.2 (11-10-2025)
+
+- **fix:** Ensure useDebounce follows React rules of hooks
+- **fix:** Debounce key instead of text in useSpeechInternal to prevent starvation
+- **fix:** Use stable keys (index fallback) in processReactNode instead of random values
+
+## 0.5.0 (11-10-2025)
 
 - **feat:** Add `debounceDelay` option to `useRemark` hook to debounce changes to the `markdown` input, reducing redundant processing during rapid updates.
 

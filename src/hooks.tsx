@@ -13,11 +13,12 @@ function useDebounce<T>(value: T, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
+    if (delay <= 0) return;
     const timeout = setTimeout(() => setDebouncedValue(value), delay);
     return () => clearTimeout(timeout);
   }, [value, delay]);
 
-  return debouncedValue;
+  return delay <= 0 ? value : debouncedValue;
 }
 
 export function useRemark({
@@ -41,8 +42,9 @@ export function useRemark({
         .use(rehypeReact, { ...rehypeReactOptions, Fragment, jsx, jsxs }),
     [JSON.stringify(rehypePlugins), JSON.stringify(rehypeReactOptions), JSON.stringify(remarkParseOptions), JSON.stringify(remarkPlugins), JSON.stringify(remarkToRehypeOptions)]
   );
+
   const processReactNode = useCallback(
-    (node: ReactNode): ReactNode => {
+    (node: ReactNode, index = 0): ReactNode => {
       if (typeof node === "string") {
         const { success, data, error } = tryCatch(() => {
           const file = processor.processSync(node);
@@ -53,14 +55,15 @@ export function useRemark({
         return node;
       }
       if (Array.isArray(node)) return node.map(processReactNode);
-      if (isValidElement<PropsWithChildren>(node)) return cloneElement(node, { key: node.key ?? Math.random(), children: processReactNode(node.props.children) });
+      if (isValidElement<PropsWithChildren>(node)) return cloneElement(node, { key: node.key ?? index, children: processReactNode(node.props.children) });
       return null;
     },
     [processor, JSON.stringify(components)]
   );
-  const debouncedMarkdown = debounceDelay ? useDebounce(markdown, debounceDelay) : markdown;
-  const key = useMemo(() => NodeToKey(debouncedMarkdown), [debouncedMarkdown]);
-  const reactContent = useMemo(() => processReactNode(debouncedMarkdown), [key, processReactNode]);
+
+  const key = useMemo(() => NodeToKey(markdown), [markdown]);
+  const debouncedKey = useDebounce(key, debounceDelay);
+  const reactContent = useMemo(() => processReactNode(markdown), [debouncedKey, processReactNode]);
 
   return reactContent;
 }
