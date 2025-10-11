@@ -14,8 +14,9 @@ function useStableValue<T>(value: T, mode: UpdateMode = "immediate", delay: numb
   const lastUpdated = useRef(0);
 
   useEffect(() => {
-    if (mode === "immediate" || delay <= 0) setStableValue(value);
-    else if (mode === "throttle") {
+    if (mode === "immediate" || delay <= 0) return;
+
+    if (mode === "throttle") {
       const now = Date.now();
       if (now - lastUpdated.current >= delay) {
         setStableValue(value);
@@ -27,7 +28,7 @@ function useStableValue<T>(value: T, mode: UpdateMode = "immediate", delay: numb
     }
   }, [value, mode, delay]);
 
-  return stableValue;
+  return mode === "immediate" || delay <= 0 ? value : stableValue;
 }
 
 export function useRemark({
