@@ -1,4 +1,8 @@
-# 0.6.0 (11-10-2025)
+# 0.6.4 (11-10-2025)
+
+- **breaking:** Make `useRemark` hook and `<Remark>` component props immutable for performance.
+
+## 0.6.0 (11-10-2025)
 
 - **breaking:** Replace `debounceDelay` with `updateMode` and `updateDelay` in `useRemark` hook and `<Remark>` component.
 

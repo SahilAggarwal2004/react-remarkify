@@ -112,7 +112,7 @@ The `useRemark` hook accepts the following parameters:
 | `updateDelay`           | `number (ms)`                                 | No       | 0               | Delay for `updateMode` = `throttle` or `debounce`. Has no effect when `updateMode` is `immediate`.                                                                                                                                       |
 | `onError`               | `Function`                                    | No       | `console.error` | Callback to handle errors during the Markdown-to-React conversion process.                                                                                                                                                               |
 
-**Note:** All options except `markdown` and `debounceDelay` are now immutable once set. This decision was made for performance optimization.
+**Note:** For performance reasons, the following options are treated as immutable after initialization: `rehypePlugins`, `rehypeReactOptions`, `remarkParseOptions`, `remarkPlugins`, `remarkToRehypeOptions`, `components`, and `onError`. Changing them dynamically will have no effect during the component's lifecycle.
 
 ### `<Remark>` Component
 
