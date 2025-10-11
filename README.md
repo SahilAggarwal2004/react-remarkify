@@ -99,17 +99,18 @@ export default function App() {
 
 The `useRemark` hook accepts the following parameters:
 
-| Parameter               | Type                                          | Required | Default         | Description                                                                                                                                                                                                                                                                                          |
-| ----------------------- | --------------------------------------------- | -------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `markdown`              | `React.ReactNode`                             | Yes      | -               | The markdown content to be converted into React.js components.                                                                                                                                                                                                                                       |
-| `rehypePlugins`         | [`PluggableList`](#pluggablelist)             | No       | -               | Plugins for `rehype` to extend functionality.                                                                                                                                                                                                                                                        |
-| `rehypeReactOptions`    | [`RehypeReactOptions`](#rehypereactoptions)   | No       | -               | Options for customizing the generated React.js components.                                                                                                                                                                                                                                           |
-| `remarkParseOptions`    | [`RemarkParseOptions`](#remarkparseoptions)   | No       | -               | Parsing options for `remark`.                                                                                                                                                                                                                                                                        |
-| `remarkPlugins`         | [`PluggableList`](#pluggablelist)             | No       | -               | Plugins for `remark` to enhance Markdown processing.                                                                                                                                                                                                                                                 |
-| `remarkToRehypeOptions` | [`RemarkRehypeOptions`](#remarkrehypeoptions) | No       | -               | Options for the `remark` to `rehype` transformation.                                                                                                                                                                                                                                                 |
-| `components`            | [`Components`](#components)                   | No       | -               | A mapping of HTML elements to custom React components, allowing customization of rendered Markdown elements.                                                                                                                                                                                         |
-| `debounceDelay`         | `number (ms)`                                 | No       | 0               | Debounces changes to the `text` input to avoid unnecessary processing during rapid updates (e.g., from user input). This helps improve performance by reducing redundant text parsing. **Note:** setting this may delay normal updates and can cause `starvation` if the input changes never settle. |
-| `onError`               | `Function`                                    | No       | `console.error` | Callback to handle errors during the Markdown-to-React conversion process.                                                                                                                                                                                                                           |
+| Parameter               | Type                                          | Required | Default         | Description                                                                                                                                                                                                                              |
+| ----------------------- | --------------------------------------------- | -------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `markdown`              | `React.ReactNode`                             | Yes      | -               | The markdown content to be converted into React.js components.                                                                                                                                                                           |
+| `rehypePlugins`         | [`PluggableList`](#pluggablelist)             | No       | -               | Plugins for `rehype` to extend functionality.                                                                                                                                                                                            |
+| `rehypeReactOptions`    | [`RehypeReactOptions`](#rehypereactoptions)   | No       | -               | Options for customizing the generated React.js components.                                                                                                                                                                               |
+| `remarkParseOptions`    | [`RemarkParseOptions`](#remarkparseoptions)   | No       | -               | Parsing options for `remark`.                                                                                                                                                                                                            |
+| `remarkPlugins`         | [`PluggableList`](#pluggablelist)             | No       | -               | Plugins for `remark` to enhance Markdown processing.                                                                                                                                                                                     |
+| `remarkToRehypeOptions` | [`RemarkRehypeOptions`](#remarkrehypeoptions) | No       | -               | Options for the `remark` to `rehype` transformation.                                                                                                                                                                                     |
+| `components`            | [`Components`](#components)                   | No       | -               | A mapping of HTML elements to custom React components, allowing customization of rendered Markdown elements.                                                                                                                             |
+| `updateMode`            | [`UpdateMode`](#updatemode)                   | No       | `immediate`     | Controls how text changes are processed: `immediate` (updates instantly), `throttle` (updates at most every `updateDelay` ms, ideal for AI streaming), or `debounce` (waits `updateDelay` ms after changes stop, ideal for user typing). |
+| `updateDelay`           | `number (ms)`                                 | No       | 0               | Delay for `updateMode` = `throttle` or `debounce`. Has no effect when `updateMode` is `immediate`.                                                                                                                                       |
+| `onError`               | `Function`                                    | No       | `console.error` | Callback to handle errors during the Markdown-to-React conversion process.                                                                                                                                                               |
 
 **Note:** All options except `markdown` and `debounceDelay` are now immutable once set. This decision was made for performance optimization.
 
@@ -122,6 +123,13 @@ The `<Remark>` component accepts the same options as `useRemark`, but you pass t
 ```
 
 ## Types
+
+### `Components`
+
+```typescript
+import { ComponentType, JSX } from "react";
+type Components = { [Key in keyof JSX.IntrinsicElements]?: ComponentType<JSX.IntrinsicElements[Key] & { node?: Element }> | keyof JSX.IntrinsicElements };
+```
 
 ### `PluggableList`
 
@@ -150,11 +158,10 @@ import { Options } from "remark-rehype";
 type RemarkRehypeOptions = Options;
 ```
 
-### `Components`
+### UpdateMode
 
 ```typescript
-import { ComponentType, JSX } from "react";
-type Components = { [Key in keyof JSX.IntrinsicElements]?: ComponentType<JSX.IntrinsicElements[Key] & { node?: Element }> | keyof JSX.IntrinsicElements };
+type UpdateMode = "immediate" | "throttle" | "debounce";
 ```
 
 ## License

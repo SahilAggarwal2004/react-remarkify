@@ -11,11 +11,14 @@ export type CommonProps = {
   remarkPlugins?: PluggableList;
   remarkToRehypeOptions?: RemarkRehypeOptions;
   components?: Components;
-  debounceDelay?: number;
+  udpateMode?: UpdateMode;
+  updateDelay?: number;
   onError?: (err: Error) => void;
 };
 
 export type Components = { [Key in keyof JSX.IntrinsicElements]?: ComponentType<JSX.IntrinsicElements[Key] & { node?: Element }> | keyof JSX.IntrinsicElements };
+
+export type UpdateMode = "immediate" | "throttle" | "debounce";
 
 export type UseRemarkOptions = CommonProps & {
   markdown: ReactNode;

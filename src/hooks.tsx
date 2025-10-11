@@ -1,24 +1,33 @@
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
-import { ReactNode, useMemo, isValidElement, cloneElement, PropsWithChildren, useCallback, useState, useEffect } from "react";
+import { ReactNode, useMemo, isValidElement, cloneElement, PropsWithChildren, useCallback, useState, useEffect, useRef } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import rehypeReact from "rehype-react";
 import remarkParse from "remark-parse";
 import remarkToRehype from "remark-rehype";
 import { Processor, unified } from "unified";
 
-import { UseRemarkOptions } from "./types.js";
+import { UpdateMode, UseRemarkOptions } from "./types.js";
 import { NodeToKey, tryCatch } from "./utils.js";
 
-function useDebounce<T>(value: T, delay: number) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+function useStableValue<T>(value: T, mode: UpdateMode = "immediate", delay: number = 0) {
+  const [stableValue, setStableValue] = useState(value);
+  const lastUpdated = useRef(0);
 
   useEffect(() => {
-    if (delay <= 0) return;
-    const timeout = setTimeout(() => setDebouncedValue(value), delay);
-    return () => clearTimeout(timeout);
-  }, [value, delay]);
+    if (mode === "immediate" || delay <= 0) setStableValue(value);
+    else if (mode === "throttle") {
+      const now = Date.now();
+      if (now - lastUpdated.current >= delay) {
+        setStableValue(value);
+        lastUpdated.current = now;
+      }
+    } else if (mode === "debounce") {
+      const timeout = setTimeout(() => setStableValue(value), delay);
+      return () => clearTimeout(timeout);
+    }
+  }, [value, mode, delay]);
 
-  return delay <= 0 ? value : debouncedValue;
+  return stableValue;
 }
 
 export function useRemark({
@@ -29,7 +38,8 @@ export function useRemark({
   remarkPlugins = [],
   remarkToRehypeOptions,
   components,
-  debounceDelay = 0,
+  udpateMode = "immediate",
+  updateDelay = 0,
   onError = console.error,
 }: UseRemarkOptions): ReactNode {
   const processor = useMemo<Processor>(
@@ -62,7 +72,7 @@ export function useRemark({
   );
 
   const key = useMemo(() => NodeToKey(markdown), [markdown]);
-  const debouncedKey = useDebounce(key, debounceDelay);
+  const debouncedKey = useStableValue(key, udpateMode, updateDelay);
   const reactContent = useMemo(() => processReactNode(markdown), [debouncedKey, processReactNode]);
 
   return reactContent;
