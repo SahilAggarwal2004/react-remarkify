@@ -1,4 +1,8 @@
-# 0.6.4 (11-10-2025)
+# 0.7.0 (01-11-2025)
+
+- **fix:** Ensure `throttle` mode in `useStableValue` performs a trailing update to prevent missing the final value update.
+
+## 0.6.4 (11-10-2025)
 
 - **breaking:** Make `useRemark` hook and `<Remark>` component props immutable for performance.
 

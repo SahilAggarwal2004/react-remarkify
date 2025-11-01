@@ -12,21 +12,34 @@ import { NodeToKey, tryCatch } from "./utils.js";
 function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
   const [stableValue, setStableValue] = useState(value);
   const lastUpdated = useRef(0);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isImmediate = mode === "immediate" || delay <= 0;
 
   useEffect(() => {
-    if (isImmediate) return;
+    if (isImmediate) {
+      setStableValue(value);
+      return;
+    }
 
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (mode === "throttle") {
       const now = Date.now();
-      if (now - lastUpdated.current >= delay) {
+      const elapsed = now - lastUpdated.current;
+      if (elapsed >= delay) {
         setStableValue(value);
         lastUpdated.current = now;
-      }
-    } else if (mode === "debounce") {
-      const timeout = setTimeout(() => setStableValue(value), delay);
-      return () => clearTimeout(timeout);
-    }
+        timeoutRef.current = null;
+      } else
+        timeoutRef.current = setTimeout(() => {
+          setStableValue(value);
+          lastUpdated.current = Date.now();
+          timeoutRef.current = null;
+        }, delay - elapsed);
+    } else if (mode === "debounce") timeoutRef.current = setTimeout(() => setStableValue(value), delay);
+
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, [value, mode, delay]);
 
   return isImmediate ? value : stableValue;

@@ -15,7 +15,7 @@ export function NodeToKey(node: ReactNode): string {
   return "";
 }
 
-export function tryCatch<T, E = Error>(callback: (...args: any[]) => T): Result<T, E> {
+export function tryCatch<T, E = Error>(callback: () => T): Result<T, E> {
   try {
     const data = callback();
     return { success: true, data, error: null };
