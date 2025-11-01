@@ -12,37 +12,26 @@ import { NodeToKey, tryCatch } from "./utils.js";
 function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
   const [stableValue, setStableValue] = useState(value);
   const lastUpdated = useRef(0);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isImmediate = mode === "immediate" || delay <= 0;
 
   useEffect(() => {
-    if (isImmediate) {
-      setStableValue(value);
-      return;
-    }
-
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    if (mode === "throttle") {
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+    if (mode === "immediate" || delay <= 0) timeout = setTimeout(() => setStableValue(value), 0);
+    else if (mode === "debounce") timeout = setTimeout(() => setStableValue(value), delay);
+    else if (mode === "throttle") {
       const now = Date.now();
       const elapsed = now - lastUpdated.current;
-      if (elapsed >= delay) {
+      timeout = setTimeout(() => {
         setStableValue(value);
-        lastUpdated.current = now;
-        timeoutRef.current = null;
-      } else
-        timeoutRef.current = setTimeout(() => {
-          setStableValue(value);
-          lastUpdated.current = Date.now();
-          timeoutRef.current = null;
-        }, delay - elapsed);
-    } else if (mode === "debounce") timeoutRef.current = setTimeout(() => setStableValue(value), delay);
+        lastUpdated.current = Date.now();
+      }, Math.max(0, delay - elapsed));
+    }
 
     return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (timeout) clearTimeout(timeout);
     };
   }, [value, mode, delay]);
 
-  return isImmediate ? value : stableValue;
+  return stableValue;
 }
 
 export function useRemark({
@@ -84,8 +73,8 @@ export function useRemark({
   }, []);
 
   const key = useMemo(() => NodeToKey(markdown), [markdown]);
-  const debouncedKey = useStableValue(key, udpateMode, updateDelay);
-  const reactContent = useMemo(() => processReactNode(markdown), [debouncedKey]);
+  const stableKey = useStableValue(key, udpateMode, updateDelay);
+  const reactContent = useMemo(() => processReactNode(markdown), [stableKey]);
 
   return reactContent;
 }
