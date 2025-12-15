@@ -36,13 +36,14 @@ function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
 
 export function useRemark({
   markdown,
+  stableMarkdown = false,
   rehypePlugins = [],
   rehypeReactOptions,
   remarkParseOptions,
   remarkPlugins = [],
   remarkToRehypeOptions,
   components,
-  udpateMode = "immediate",
+  updateMode = "immediate",
   updateDelay = 0,
   onError = console.error,
 }: UseRemarkOptions): ReactNode {
@@ -72,8 +73,8 @@ export function useRemark({
     return null;
   }, []);
 
-  const key = useMemo(() => NodeToKey(markdown), [markdown]);
-  const stableKey = useStableValue(key, udpateMode, updateDelay);
+  const key = useMemo(() => (stableMarkdown ? markdown : NodeToKey(markdown)), [markdown, stableMarkdown]);
+  const stableKey = useStableValue(key, updateMode, updateDelay);
   const reactContent = useMemo(() => processReactNode(markdown), [stableKey]);
 
   return reactContent;

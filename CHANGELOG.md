@@ -1,4 +1,9 @@
-# 0.7.0 (01-11-2025)
+# 0.8.0 (15-12-2025)
+
+- **feat:** Add `stableMarkdown` option to `useRemark` hook to skip expensive internal key calculation when the `markdown` input is already stable (memoized), improving performance.
+- **fix:** Correct typo `udpateMode` → `updateMode` in `useRemark` hook options.
+
+## 0.7.0 (01-11-2025)
 
 - **fix:** Ensure `throttle` mode in `useStableValue` performs a trailing update to prevent missing the final value update.
 

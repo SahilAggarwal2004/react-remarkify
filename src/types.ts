@@ -5,13 +5,14 @@ import { PluggableList } from "unified";
 
 // hooks.tsx
 export type CommonProps = {
+  stableMarkdown?: boolean;
   rehypePlugins?: PluggableList;
   rehypeReactOptions?: RehypeReactOptions;
   remarkParseOptions?: RemarkParseOptions;
   remarkPlugins?: PluggableList;
   remarkToRehypeOptions?: RemarkRehypeOptions;
   components?: Components;
-  udpateMode?: UpdateMode;
+  updateMode?: UpdateMode;
   updateDelay?: number;
   onError?: (err: Error) => void;
 };
