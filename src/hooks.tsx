@@ -6,8 +6,8 @@ import remarkParse from "remark-parse";
 import remarkToRehype from "remark-rehype";
 import { Processor, unified } from "unified";
 
+import { nodeToKey, tryCatch } from "./lib/utils.js";
 import { UpdateMode, UseRemarkOptions } from "./types.js";
-import { NodeToKey, tryCatch } from "./utils.js";
 
 function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
   const [stableValue, setStableValue] = useState(value);
@@ -73,7 +73,7 @@ export function useRemark({
     return null;
   }, []);
 
-  const key = useMemo(() => (stableMarkdown ? markdown : NodeToKey(markdown)), [markdown, stableMarkdown]);
+  const key = useMemo(() => (stableMarkdown ? markdown : nodeToKey(markdown)), [markdown, stableMarkdown]);
   const stableKey = useStableValue(key, updateMode, updateDelay);
   const reactContent = useMemo(() => processReactNode(markdown), [stableKey]);
 

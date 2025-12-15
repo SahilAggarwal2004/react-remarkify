@@ -43,15 +43,19 @@ import { useRemark } from "react-remarkify";
 export default function App() {
   const heading = "# Welcome to the App";
   const description = "This is a **React-powered** Markdown block.";
-
-  const reactContent = useRemark({
-    markdown: (
+  const markdown = useMemo(() => {
+    return (
       <section>
         <div>{heading}</div>
         <div>{description}</div>
         <div>_This content is rendered from JSX and Markdown combined._</div>
       </section>
-    ),
+    );
+  }, [heading, description]);
+
+  const reactContent = useRemark({
+    markdown,
+    stableMarkdown: true,
     components: {
       h1: "h2",
       strong: (props) => <strong style={{ color: "#e67e22" }} {...props} />,
