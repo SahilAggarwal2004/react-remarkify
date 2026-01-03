@@ -21,7 +21,10 @@
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "build": "pnpm i && tsc"
+    "build": "pnpm i && tsc",
+    "dry-release": "release-it --ci --dry-run",
+    "pub": "pnpm login && pnpm publish",
+    "release": "release-it --ci"
   },
   "dependencies": {
     "rehype-react": "^8.0.0",
@@ -30,9 +33,11 @@
     "unified": "^11.0.5"
   },
   "devDependencies": {
+    "@release-it/conventional-changelog": "^10.0.4",
     "@types/react": "^19.2.7",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "mdast-util-to-hast": "^13.2.1",
+    "release-it": "^19.2.2",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
