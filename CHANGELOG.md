@@ -1,3 +1,20 @@
+# Changelog
+
+## [0.8.2](https://github.com/SahilAggarwal2004/react-remarkify/compare/v0.8.1...v0.8.2) (2026-01-04)
+
+### Chores
+
+* Add release-it for automated versioning and changelog.  ([a428ffc](https://github.com/SahilAggarwal2004/react-remarkify/commit/a428ffca6e4ce1bd553d6b792b88e68335efbd7f))
+
+### Code Refactoring
+
+* Modularize `index.tsx`.  ([0bf286a](https://github.com/SahilAggarwal2004/react-remarkify/commit/0bf286af8e662de4bb7a015e464842f6f65b159a))
+
+### Build System
+
+* Configure tsup for package bundling.  ([aaf6437](https://github.com/SahilAggarwal2004/react-remarkify/commit/aaf6437c210a95f5130b786a8b3aea620b39d228))
+* Mark package as side effect free.  ([2943845](https://github.com/SahilAggarwal2004/react-remarkify/commit/2943845c378d2b31f147073808f8028aa14405a3))
+
 ## 0.8.0 (2025-12-15)
 
 * **feat:** Add `stableMarkdown` option to `useRemark` hook to skip expensive internal key calculation when the `markdown` input is already stable (memoized), improving performance.
