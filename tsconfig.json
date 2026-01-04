@@ -1,10 +1,8 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
-    "target": "ES6",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "lib": ["DOM", "ESNext"],
     "jsx": "react",
     "declaration": true,
