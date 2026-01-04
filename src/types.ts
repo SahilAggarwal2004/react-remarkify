@@ -1,7 +1,7 @@
-import { Options as RemarkRehypeOptions } from "mdast-util-to-hast";
-import { ComponentType, JSX, ReactNode } from "react";
-import { Options as RemarkParseOptions } from "remark-parse";
-import { PluggableList } from "unified";
+import type { Options as RemarkRehypeOptions } from "mdast-util-to-hast";
+import type { ComponentType, JSX, ReactNode } from "react";
+import type { Options as RemarkParseOptions } from "remark-parse";
+import type { PluggableList } from "unified";
 
 // hooks.tsx
 export type CommonProps = {
@@ -33,8 +33,8 @@ export type RemarkProps = CommonProps & {
 };
 
 // utils.ts
-type Success<T> = { success: true; data: T; error: null };
+export type Success<T> = { success: true; data: T; error: null };
 
-type Failure<E> = { success: false; data: null; error: E };
+export type Failure<E> = { success: false; data: null; error: E };
 
 export type Result<T, E = Error> = Success<T> | Failure<E>;

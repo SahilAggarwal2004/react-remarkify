@@ -7,9 +7,9 @@ import remarkToRehype from "remark-rehype";
 import { Processor, unified } from "unified";
 
 import { nodeToKey, tryCatch } from "./lib/utils.js";
-import { UpdateMode, UseRemarkOptions } from "./types.js";
+import type { UpdateMode, UseRemarkOptions } from "./types.js";
 
-function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
+function useStableValue<T>(value: T, mode: UpdateMode, delay: number): T {
   const [stableValue, setStableValue] = useState(value);
   const lastUpdated = useRef(0);
 

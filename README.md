@@ -32,7 +32,7 @@ bun add react-remarkify
 
 **react-remarkify** provides two primary methods to incorporate Markdown into your React.js applications: the `useRemark` hook and the `<Remark>` component.
 
-### `useRemark` Hook
+### useRemark Hook
 
 Use the `useRemark` hook to transform Markdown content into React.js components dynamically:
 
@@ -67,7 +67,7 @@ export default function App() {
 }
 ```
 
-### `<Remark>` Component
+### Remark Component
 
 Use the `<Remark>` component for a declarative approach:
 
@@ -99,7 +99,7 @@ export default function App() {
 
 ## API Reference
 
-### `useRemark` Hook
+### useRemark Hook
 
 The `useRemark` hook accepts the following parameters:
 
@@ -119,7 +119,7 @@ The `useRemark` hook accepts the following parameters:
 
 **Note:** For performance reasons, the following options are treated as immutable after initialization: `rehypePlugins`, `rehypeReactOptions`, `remarkParseOptions`, `remarkPlugins`, `remarkToRehypeOptions`, `components`, and `onError`. Changing them dynamically will have no effect during the component's lifecycle.
 
-### `<Remark>` Component
+### Remark Component
 
 The `<Remark>` component accepts the same options as `useRemark`, but you pass the `markdown` content as its children:
 
@@ -129,37 +129,40 @@ The `<Remark>` component accepts the same options as `useRemark`, but you pass t
 
 ## Types
 
-### `Components`
+### Components
 
 ```typescript
 import { ComponentType, JSX } from "react";
 type Components = { [Key in keyof JSX.IntrinsicElements]?: ComponentType<JSX.IntrinsicElements[Key] & { node?: Element }> | keyof JSX.IntrinsicElements };
 ```
 
-### `PluggableList`
+### PluggableList
 
 ```typescript
-import { PluggableList } from "unified";
+import type { PluggableList } from "unified";
 ```
 
-### `RehypeReactOptions`
+### RehypeReactOptions
 
 ```typescript
-import { Components } from "hast-util-to-jsx-runtime";
+import type { Components } from "hast-util-to-jsx-runtime";
+
 type RehypeReactOptions = { components?: Partial<Components> };
 ```
 
-### `RemarkParseOptions`
+### RemarkParseOptions
 
 ```typescript
-import { Options } from "remark-parse";
+import type { Options } from "remark-parse";
+
 type RemarkParseOptions = Options;
 ```
 
-### `RemarkRehypeOptions`
+### RemarkRehypeOptions
 
 ```typescript
-import { Options } from "remark-rehype";
+import type { Options } from "remark-rehype";
+
 type RemarkRehypeOptions = Options;
 ```
 
