@@ -27,7 +27,7 @@ export type UseRemarkOptions = CommonProps & {
 
 export type RehypeReactOptions = { components?: Partial<Components> };
 
-// index.tsx
+// index.ts
 export type RemarkProps = CommonProps & {
   children: ReactNode;
 };
