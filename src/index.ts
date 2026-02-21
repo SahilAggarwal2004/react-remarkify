@@ -1,2 +1,2 @@
-export { default } from "./components.js";
-export { useRemark } from "./hooks.js";
+export { default } from "./components";
+export { useRemark } from "./hooks";

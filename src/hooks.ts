@@ -6,8 +6,8 @@ import remarkParse from "remark-parse";
 import remarkToRehype from "remark-rehype";
 import { Processor, unified } from "unified";
 
-import { nodeToKey, tryCatch } from "./lib/utils.js";
-import type { UpdateMode, UseRemarkOptions } from "./types.js";
+import { nodeToKey, tryCatch } from "./lib/utils";
+import type { UpdateMode, UseRemarkOptions } from "./types";
 
 function useStableValue<T>(value: T, mode: UpdateMode, delay: number): T {
   const [stableValue, setStableValue] = useState(value);
