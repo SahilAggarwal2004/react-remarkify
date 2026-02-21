@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.8.3](https://github.com/SahilAggarwal2004/react-remarkify/compare/v0.8.2...v0.8.3) (2026-02-21)
+
+### Chores
+
+* Rename `index.tsx` to `index.ts`.  ([ac66921](https://github.com/SahilAggarwal2004/react-remarkify/commit/ac66921535070cf43e1b0a42d7f5eb0cdb96378b))
+
+### Build System
+
+* Migrate from tsup to tsdown for library bundling.  ([6dadddc](https://github.com/SahilAggarwal2004/react-remarkify/commit/6dadddce97a2aa1fbdfbda027cd663366dab9619))
+
 ## [0.8.2](https://github.com/SahilAggarwal2004/react-remarkify/compare/v0.8.1...v0.8.2) (2026-01-04)
 
 ### Chores
