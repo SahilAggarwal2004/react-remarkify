@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.4](https://github.com/SahilAggarwal2004/react-remarkify/compare/v0.8.3...v0.8.4) (2026-03-07)
+
+### Chores
+
+* **deps:** Update tsdown.  ([6b0d48d](https://github.com/SahilAggarwal2004/react-remarkify/commit/6b0d48d228994563767658e4a533c6a42bdaedbe))
+
 ## [0.8.3](https://github.com/SahilAggarwal2004/react-remarkify/compare/v0.8.2...v0.8.3) (2026-02-21)
 
 ### Chores
