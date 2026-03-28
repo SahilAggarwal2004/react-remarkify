@@ -1,13 +1,15 @@
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
-import { ReactNode, useMemo, isValidElement, cloneElement, PropsWithChildren, useCallback, useState, useEffect, useRef } from "react";
+import { useMemo, isValidElement, cloneElement, useCallback, useState, useEffect, useRef } from "react";
+import type { ReactNode, PropsWithChildren } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import rehypeReact from "rehype-react";
 import remarkParse from "remark-parse";
 import remarkToRehype from "remark-rehype";
-import { Processor, unified } from "unified";
+import { unified } from "unified";
+import type { Processor } from "unified";
 
-import { nodeToKey, tryCatch } from "./lib/utils";
-import type { UpdateMode, UseRemarkOptions } from "./types";
+import { nodeToKey, tryCatch } from "@/lib/utils";
+import type { UpdateMode, UseRemarkOptions } from "@/types";
 
 function useStableValue<T>(value: T, mode: UpdateMode, delay: number): T {
   const [stableValue, setStableValue] = useState(value);
@@ -20,10 +22,13 @@ function useStableValue<T>(value: T, mode: UpdateMode, delay: number): T {
     else if (mode === "throttle") {
       const now = Date.now();
       const elapsed = now - lastUpdated.current;
-      timeout = setTimeout(() => {
-        setStableValue(value);
-        lastUpdated.current = Date.now();
-      }, Math.max(0, delay - elapsed));
+      timeout = setTimeout(
+        () => {
+          setStableValue(value);
+          lastUpdated.current = Date.now();
+        },
+        Math.max(0, delay - elapsed),
+      );
     }
 
     return () => {
@@ -55,7 +60,7 @@ export function useRemark({
         .use(remarkToRehype, remarkToRehypeOptions)
         .use(rehypePlugins)
         .use(rehypeReact, { ...rehypeReactOptions, Fragment, jsx, jsxs }),
-    []
+    [],
   );
 
   const processReactNode = useCallback((node: ReactNode, index = 0): ReactNode => {
