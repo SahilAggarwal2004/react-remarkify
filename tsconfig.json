@@ -27,7 +27,6 @@
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,
     "erasableSyntaxOnly": true,
-    "noImplicitOverride": true,
-    "exactOptionalPropertyTypes": true
+    "noImplicitOverride": true
   }
 }

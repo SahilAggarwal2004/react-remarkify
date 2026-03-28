@@ -1,7 +1,6 @@
+import type { Result } from "@/types";
 import { isValidElement } from "react";
 import type { PropsWithChildren, ReactNode } from "react";
-
-import type { Result } from "@/types";
 
 export function nodeToKey(node: ReactNode): string {
   if (typeof node === "string") return node;

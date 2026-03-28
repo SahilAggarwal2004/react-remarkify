@@ -1,15 +1,14 @@
+import { nodeToKey, tryCatch } from "@/lib/utils";
+import type { UpdateMode, UseRemarkOptions } from "@/types";
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
-import { useMemo, isValidElement, cloneElement, useCallback, useState, useEffect, useRef } from "react";
-import type { ReactNode, PropsWithChildren } from "react";
+import { cloneElement, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import rehypeReact from "rehype-react";
 import remarkParse from "remark-parse";
 import remarkToRehype from "remark-rehype";
 import { unified } from "unified";
 import type { Processor } from "unified";
-
-import { nodeToKey, tryCatch } from "@/lib/utils";
-import type { UpdateMode, UseRemarkOptions } from "@/types";
 
 function useStableValue<T>(value: T, mode: UpdateMode, delay: number): T {
   const [stableValue, setStableValue] = useState(value);
@@ -69,12 +68,27 @@ export function useRemark({
         const file = processor.processSync(node);
         return (components ? processor.runSync(processor.parse(file), file) : file.result) as any;
       });
-      if (success) return components ? toJsxRuntime(data, { Fragment, components, ignoreInvalidStyle: true, jsx, jsxs, passKeys: true, passNode: true }) : data;
+      if (success)
+        return components
+          ? toJsxRuntime(data, {
+              Fragment,
+              components,
+              ignoreInvalidStyle: true,
+              jsx,
+              jsxs,
+              passKeys: true,
+              passNode: true,
+            })
+          : data;
       onError(error);
       return node;
     }
     if (Array.isArray(node)) return node.map(processReactNode);
-    if (isValidElement<PropsWithChildren>(node)) return cloneElement(node, { key: node.key ?? index, children: processReactNode(node.props.children) });
+    if (isValidElement<PropsWithChildren>(node))
+      return cloneElement(node, {
+        key: node.key ?? index,
+        children: processReactNode(node.props.children),
+      });
     return null;
   }, []);
 

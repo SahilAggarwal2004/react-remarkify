@@ -17,7 +17,9 @@ export type CommonProps = {
   onError?: (err: Error) => void;
 };
 
-export type Components = { [Key in keyof JSX.IntrinsicElements]?: ComponentType<JSX.IntrinsicElements[Key] & { node?: Element }> | keyof JSX.IntrinsicElements };
+export type Components = {
+  [Key in keyof JSX.IntrinsicElements]?: ComponentType<JSX.IntrinsicElements[Key] & { node?: Element }> | keyof JSX.IntrinsicElements;
+};
 
 export type UpdateMode = "immediate" | "throttle" | "debounce";
 
